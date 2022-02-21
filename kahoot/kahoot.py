@@ -7,6 +7,7 @@ def process_df(kh_file,es_df,quiz):
     regs=len(kh_df)
     grds = [0] * regs
     kh_df.insert(3, 'Grades', grds)
+    kh_df['Player'] = kh_df['Player'].astype(str)
     
     # asignando 50 al podio
     kh_df.loc[kh_df['Rank'] < 4,'Grades'] = 50
@@ -35,11 +36,12 @@ def process_df(kh_file,es_df,quiz):
 
 
 #archivos con Scores
-file_scores = ['Muestreo y cuantificación G1.xlsx','Muestreo y cuantificación G2.xlsx','Muestreo y cuantificación G3.xlsx']
+file_scores = ['G1.xlsx','G2.xlsx','G3.xlsx']
+#file_scores = ['G3.xlsx']
 #archivo listado
 file_ests='PDS2022-1.xlsx'
 #Quiz a asinar nota
-quiz = 'Q1'
+quiz = 'Q3'
 
 #Cargando lista de estudiantes
 es_df = pd.read_excel(file_ests, sheet_name='Corte1', header=1)
@@ -48,6 +50,8 @@ es_df['Codigo'] = es_df['Codigo'].astype(int)
 es_df['Codigo'] = es_df['Codigo'].astype(str)
 
 for i in file_scores:
+    print('procesando: ', i)
     es_df = process_df(i, es_df, quiz)
 
+print('Guandando resultado -> out.xlsx')
 es_df.to_excel('out.xlsx')
