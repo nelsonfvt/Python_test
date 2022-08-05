@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import random
 
 #Cargar lista de estudiantes por codigo
 ests_file = 'PDS2022-2.xlsx'
@@ -8,29 +9,38 @@ ests_df.dropna(subset = ['CODIGO'], inplace = True)
 ests_df.drop(ests_df.columns[[4 ,5]], axis=1, inplace=True)
 ests_df['CODIGO'] = ests_df['CODIGO'].astype(int)
 ests_df['CODIGO'] = ests_df['CODIGO'].astype(str)
-#print(ests_df['CODIGO'])
 
-n_temas = 4 #primer corte
+temas = ['Muestreo y cuantificación', 'Señales básicas', 'Sist. tiempo discreto', 'Operaciones Señales y Sistemas']
+random.shuffle(temas)
+print(temas)
+
+n_temas = len(temas)
 n_ests = len(ests_df)
 n_part = 5
 n_grups = n_ests // n_part
 n_sobra = n_ests % n_part
 print('numero de grupos: ' + str(n_grups))
-print('numero de estudiantes sobrantes: ' + str(n_sobra))
-
 
 estudiantes = ests_df
 grupos = []
 sh_nomb = []
+cont = 0
 # formando cada grupo
 for g in range(0,n_grups):
+    tm = pd.DataFrame([temas[cont]],columns = ['Tema'])
+    cont += 1
+    if cont == len(temas):
+        cont = 0
     part = estudiantes.sample(n = n_part)
     part_codes = part['CODIGO']
     for e in part_codes:
         estudiantes = estudiantes[estudiantes['CODIGO'] != e]
-    grupo = part
+    grupo = pd.concat([tm, part])
     grupos.append(grupo)
     sh_nomb.append('grupo_' + str(g+1))
+
+for s in range(0, len(estudiantes)):
+    grupos[s] = pd.concat([grupos[s], estudiantes.iloc[s].to_frame().transpose()]) 
 
 writer = pd.ExcelWriter(r"Out2.xlsx")
 _ = [A.to_excel(writer,sheet_name="{0}".format(sh_nomb[i])) for i, A in enumerate(grupos)]
