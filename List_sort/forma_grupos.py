@@ -3,14 +3,15 @@ import numpy as np
 import random
 
 #Cargar lista de estudiantes por codigo
-ests_file = 'PDS2022-2.xlsx'
-ests_df = pd.read_excel(ests_file,sheet_name = 'Listado', header=1)
+ests_file = 'PDS2023-1.xlsx'
+#ests_file = 'VM2022-2.xlsx'
+ests_df = pd.read_excel(ests_file,sheet_name = 'Listado', header=0)
 ests_df.dropna(subset = ['CODIGO'], inplace = True)
-ests_df.drop(ests_df.columns[[4 ,5]], axis=1, inplace=True)
+#ests_df.drop(ests_df.columns[[4 ,5]], axis=1, inplace=True)
 ests_df['CODIGO'] = ests_df['CODIGO'].astype(int)
 ests_df['CODIGO'] = ests_df['CODIGO'].astype(str)
 
-temas = ['Muestreo y cuantificación', 'Señales básicas', 'Sist. tiempo discreto', 'Operaciones Señales y Sistemas']
+temas = ['Teorema de muestreo y Aliasing','Cuantificación de señales y error de cuantificación','Sistemas LTI','Función de transferencia de sistemas LTI','Aplicación de Tda Z para análisis de señales y sistemas','Análisis de Fouier para señales de tiempo discreto','DFT y FFT']
 random.shuffle(temas)
 print(temas)
 

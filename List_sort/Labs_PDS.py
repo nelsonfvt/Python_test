@@ -1,7 +1,7 @@
 import pandas as pd
 
 def proc_lists(lab_itm,est_df):
-    kh_df = pd.read_excel(lab_itm, sheet_name='Corte1',header=1)
+    kh_df = pd.read_excel(lab_itm, sheet_name='Corte2',header=1)
     kh_df.dropna(subset=['Codigo'],inplace=True)
     kh_df['Codigo'] = kh_df['Codigo'].astype(int)
     kh_df['Codigo'] = kh_df['Codigo'].astype(str)
@@ -11,7 +11,7 @@ def proc_lists(lab_itm,est_df):
     for i in range(0,regs):
         nota = kh_df.iloc[[i]]['Nota'].values[0]
         code = kh_df.iloc[[i]]['Codigo'].values[0]
-        est_df.loc[ est_df['Codigo'] == code , 'LAB'] = nota
+        est_df.loc[ est_df['Codigo'] == code , 'Def'] = nota
 
     return est_df
 
