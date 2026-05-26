@@ -28,6 +28,10 @@ for g in range(0,n_grups):
     grupos.append(part)
     sh_nomb.append('grupo_' + str(g+1))
 
+if n_sobra > 0:
+    print("incluyendo sobrantes")
+    grupos.append(estudiantes)
+    sh_nomb.append('grupo_' + str(n_grups+1))
 
 writer = pd.ExcelWriter(r"Out2.xlsx")
 _ = [A.to_excel(writer,sheet_name="{0}".format(sh_nomb[i]),index=False) for i, A in enumerate(grupos)]
